@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WhatsApp Contacts Exporter</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📱 WhatsApp Exporter</h1>
+      <p class="subtitle">Export your contacts easily</p>
+    </header>
+
+    <div class="status" id="status">
+      <span class="status-dot"></span>
+      <span id="status-text">Checking WhatsApp Web...</span>
+    </div>
+
+    <section class="options">
+      <h2>Filter Options</h2>
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" id="includeContacts" checked>
+          <span>Individual Contacts</span>
+        </label>
+        <label>
+          <input type="checkbox" id="includeGroups" checked>
+          <span>Groups</span>
+        </label>
+      </div>
+    </section>
+
+    <section class="export-section">
+      <h2>Export Format</h2>
+      <div class="button-group">
+        <button id="exportCSV" class="btn btn-primary" disabled>
+          📄 Export CSV
+        </button>
+        <button id="exportJSON" class="btn btn-secondary" disabled>
+          📋 Export JSON
+        </button>
+      </div>
+    </section>
+
+    <div class="results" id="results" style="display: none;">
+      <p>Found: <strong id="contactCount">0</strong> contacts</p>
+    </div>
+
+    <footer>
+      <p class="privacy">🔒 Your data never leaves your browser</p>
+      <p class="tip">💡 Scroll through your chat list to load more contacts</p>
+    </footer>
+  </div>
+
+  <script src="../lib/csv.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
