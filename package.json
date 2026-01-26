@@ -4,9 +4,14 @@
   "description": "Export WhatsApp Web contacts to CSV/Excel",
   "scripts": {
     "test": "jest --coverage",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test:e2e": "npx playwright test",
+    "test:e2e:headed": "npx playwright test --headed",
+    "test:e2e:debug": "npx playwright test --debug",
+    "test:e2e:report": "npx playwright show-report"
   },
   "devDependencies": {
+    "@playwright/test": "^1.52.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0"
   }
