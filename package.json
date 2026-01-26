@@ -1,0 +1,13 @@
+{
+  "name": "whatsapp-contacts-exporter",
+  "version": "1.0.0",
+  "description": "Export WhatsApp Web contacts to CSV/Excel",
+  "scripts": {
+    "test": "jest --coverage",
+    "test:watch": "jest --watch"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}
