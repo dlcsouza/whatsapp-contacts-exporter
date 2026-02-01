@@ -36,7 +36,6 @@
       }
     }
 
-    console.log(`[WhatsApp Exporter] Found ${chatElements.length} chat elements`);
 
     chatElements.forEach((element, index) => {
       try {
@@ -50,7 +49,6 @@
       }
     });
 
-    console.log(`[WhatsApp Exporter] Extracted ${contacts.length} unique contacts`);
     return contacts;
   }
 
@@ -223,5 +221,4 @@
     });
   };
 
-  console.log('[WhatsApp Exporter] Content script loaded');
 })();
