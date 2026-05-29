@@ -96,17 +96,51 @@ function getFilteredContacts() {
   });
 }
 
-// Function injected into the page to scrape contacts
+// Function injected into the page to scroll + scrape contacts
 function scrapeContacts() {
+  // ── Step 1: Scroll chat list to load ALL contacts ──
+  // WhatsApp Web uses virtual scrolling; contacts not in viewport are not in DOM
+  const scrollContainer =
+    document.querySelector('[data-testid="chat-list"]') ||
+    document.querySelector('#pane-side') ||
+    document.querySelector('[role="list"]') ||
+    document.querySelector('div[tabindex="-1"] > div > div > div');
+
+  if (scrollContainer) {
+    // Scroll in steps to trigger lazy loading
+    const scrollStep = 400;
+    const scrollDelay = 100;
+    const maxScrolls = 80;
+    let lastScrollTop = -1;
+    let scrollCount = 0;
+
+    // Scroll até o fim da lista
+    for (let i = 0; i < maxScrolls; i++) {
+      scrollContainer.scrollTop += scrollStep;
+      scrollCount++;
+      // Pequena pausa artificial via loop (executeScript é síncrono)
+      const now = Date.now();
+      while (Date.now() - now < scrollDelay) {
+        // wait
+      }
+      const currentTop = scrollContainer.scrollTop;
+      if (currentTop === lastScrollTop) break; // chegou ao fim
+      lastScrollTop = currentTop;
+    }
+
+    // Volta ao topo
+    scrollContainer.scrollTop = 0;
+  }
+
+  // ── Step 2: Collect ALL contacts from DOM ──
   const contacts = [];
   const seen = new Set();
 
-  // WhatsApp Web selectors (may need updates as WhatsApp changes)
   const chatListSelectors = [
     '[data-testid="cell-frame-container"]',
     '[data-testid="list-item-container"]',
-    '._8nE1Y', // Chat row container
-    '.zoWT4'   // Alternative selector
+    '._8nE1Y',
+    '.zoWT4'
   ];
 
   let chatElements = [];
@@ -117,7 +151,6 @@ function scrapeContacts() {
 
   chatElements.forEach(element => {
     try {
-      // Try to get the contact/group name
       const nameSelectors = [
         '[data-testid="cell-frame-title"] span[title]',
         '._21S-L span[title]',
@@ -139,21 +172,18 @@ function scrapeContacts() {
       if (!name || seen.has(name)) return;
       seen.add(name);
 
-      // Detect if it's a group (groups usually have specific icons or patterns)
       const isGroup = 
         element.querySelector('[data-testid="default-group"]') !== null ||
         element.querySelector('[data-icon="default-group"]') !== null ||
         name.includes('👥') ||
         element.innerHTML.includes('participants');
 
-      // Try to extract phone number (often in the last message or contact info)
       let phoneNumber = '';
       const phoneMatch = name.match(/\+?\d[\d\s\-()]{8,}/);
       if (phoneMatch) {
         phoneNumber = phoneMatch[0].replace(/[\s\-()]/g, '');
       }
 
-      // Get last message time if available
       const timeSelectors = [
         '[data-testid="cell-frame-primary-detail"]',
         '._3Bxar',
