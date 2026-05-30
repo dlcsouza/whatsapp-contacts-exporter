@@ -7,6 +7,9 @@ A Chrome extension to export your WhatsApp Web contacts and groups to CSV or JSO
 ![Version](https://img.shields.io/badge/version-1.0.1-purple)
 ![License MIT](https://img.shields.io/badge/License-MIT-yellow)
 
+> 💼 **Need a custom Chrome extension, web system, or automation tool?**  
+> I build software for hire — [diogolcsouza@gmail.com](mailto:diogolcsouza@gmail.com) · [LinkedIn](https://linkedin.com/in/diogolcsouza)
+
 ## ✨ Features
 
 - 📤 **One-click export** - Export all visible contacts instantly
